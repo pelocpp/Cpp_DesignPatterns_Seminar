@@ -1,0 +1,331 @@
+===============================
+
+Seminar "C++ Design Pattern"
+
+Peter Loos // Du
+
+30+ Jahre:
+
+i) Entwicklung
+ii) Schulung / Training
+
+== C/C++, Java, C#, Mobile Programming, JavaScript, (Python)
+
+Back to the Roots: C++
+
+Guten Morgen
+
+===============================
+
+a) Visual Studio 2022 (Community - for free)
+
+b) Github:
+
+https://github.com/pelocpp
+
+===============================
+
+Was sind meine Erwartungen an dieses Seminar ???
+
+Was MUSS drin sein
+
+Überblick ...
+
+===============================
+
+== Erzeugungsmuster
+
+== Anti - Pattern
+
+== Übersichtlichkeit des Codes :)
+
+== Erkennen ???
+
+== Wann brauche ich welches Pattern :)
+
+===============================
+
+Frage: Stellt Fragen !!!!!!!!!!!!!!!!!!!
+
+Pause ... um / ab 12.30 
+
+===============================
+
+1. Vorabbemerkung:
+
+== Erkennen ???
+
+== Wann brauche ich welches Pattern :)
+
+== Neue Aufgabe umzusetzen hat // Mindset nachdenken ...
+
+Schwierigste Frage:
+
+a) Man sollte sie kennen / gelernt haben ...
+
+b) Beispiele ...
+
+   i)  Konzeptionelle Beispiel // eine Beschreibung (UML) in Quellcode (C++) umsetzen
+
+   ii) Anwendungs-Beispiel // Real-World Beispiel
+
+===============================================
+
+Single Responsibility Principle <=> God Object
+
+===============================================
+
+Code Smell:  Smell: Geruch // Code riecht // stinkt
+
+================================================
+
+Lösung ist vorhanden
+
+Sind glücklich
+
+Neue Anforderungen !
+
+Frage !!!!!!!!!!!!!!!! : Ist meine aktuelle SW flexibel ??????????????
+
+Flexibilität bedeutet im Regelfall: MEHRERE Klassen // breiteres Spektrum // Zeit // Verständnis 
+
+================================================
+
+a) Ganz enger Weg:  Prototyp // Ziel erreichen // verifizieren.
+
+b) Redesign: Breiten Weg wählst.
+
+================================================
+
+Idiom / Prinzip / Richtlinie / Guide Line
+
+==============================================
+
+Teile der SW entkoppeln !!!!!!!!
+
+Wie: das kann man mit Interfaces erreichen.
+
+===> Losen Kopplung.
+
+==============================================
+
+Adapter Pattern:
+
+Programm: Daten: JSON (Format)
+
+Provider: XML (Format)
+
+==============================================
+
+Function Pointer: Gute Frage
+
+Jepp, ginge:
+
+Tabelle:
+
+switch (format)
+
+{ "avi", fp1 },
+{ "mp3", fp2 },
+{ "mp4", fp3 },
+
+Etwas zu Prozedural // zu wenig Objekt-orientiert.
+
+Ist ein anderer Ansatz als das Adapter Pattern:
+
+Pro - Contra:   
+
+Wenn die Formate / Inkompatibilitäten WEITER auseinander gehen:
+
+Pattern: Da ist Platz in den Methoden für Umbereitung / Nachbereitung.
+
+Hinweis:  Function Pointer:  Strategy Pattern  versus Function Pointer versus 'std::function'
+
+==============================================
+
+Adapter
+
+Proxy 
+
+==============================================
+
+Was sind die Unterschiede zwischen Adapter Pattern und Proxy Pattern?
+
+== Beide verstecken Klassen hinter dem Rücken des Anwenders
+
+== Proxy leitet nur WEITER.
+
+== Adapter leitet auch WEITER, aber er muss die Anforderung umformulieren (XML nach JSON) ,
+     und dann entscheiden, an wen er weiterleitet, wenn mehrere Zielobjekte in Frage kommen.
+
+== Ein Proxy formuliert die Daten NICHT um --- im Gegenteil:
+
+   Er leitet 1:1 weiter / der Client soll davon ja nichts mitbekommen.
+
+== Ein Proxy kann - vor dem eigentlichen Zielaufruf - ergänzende Aktionen tun (Logging. ...)
+   bis hin zur Verweigerung des eigentlichen Zielaufrufs.
+
+== Bzgl. des Umfangs der Verdeckung / dessen, was versteckt wird:
+
+a) Proxy: Müsste die ganze Schnittstelle des Zielobjekts umsetzen.
+
+b) Adapter: Legt die vom Client geforderten Methoden offen.
+
+     Im Regelfall sehen wir hier ein oder mehrere Methoden,
+     aber nicht das Interface einer gesamten Klasse.
+
+
+=====================================================
+
+"Einen Proxy für den Adaptee anlegen"
+
+Was ist bei diesem Satz in Hochkomma gemeint:
+
+Damit sollte eigentlich im Proxy eine andere Schnittstelle einhergehen,
+eine, die der Client versteht.
+
+Eager vs. Lazy Proxy:
+
+Eager:  eifrig, begierig ==>   direkte Methodenaufruf
+
+Lazy: faul               ==>   kein direkter Methodenaufruf  // on demand , erst wenn es NOTWENDIG ist
+
+=====================================================
+
+Was kann man als "Strategie" auffassen ?? Methode
+
+a) Sortieren:  std::sort ===> Kriterium: aufwärts / abwärts 
+                              Personen:  Namen, Alter, Wohnort ...
+
+b) Hierarchie von graf. Klassen:
+
+   Zeichnen:  Windows - Subsystem
+              Linux - Subsystem
+
+              Betriebssystem - Spezifika:  ==> Strategy
+
+Strategy - Pattern:
+
+a) Klassisch
+
+b) Modern C++
+
+
+Funktionszeiger:
+================
+
+Einstufung: Okay, sind ein Sprachmittel von C++
+
+==> Sind nicht so wirklich OO
+
+==> Alternativ:  Schnittstellenzeiger // adressiert mehrere Methoden eines Objekts // ==> OO
+
+C++:  std::function
+
+Ist eine universelle Hülle für alles Aufrufbare :)
+
+===========================================
+
+Gilt für viele Pattern:
+
+a) Prinzipiell sind Umsetzungen der Pattern DYNAMISCH ausgelegt / konzipiert.
+
+b) C++ kann das 
+
+c) C++: Generische Sprache : Templates  // Statisch // Übersetzungszeit // Compile-Time.
+
+Geht das auch mit Design Pattern: Statische Umsetzung eines Patterns.
+
+Ja.
+
+Beispiel:
+
+Textformate:
+
+== HTML
+== Markdown
+
+Listen: Aufzählung mit Punkt vorne dran.
+
+
+HTML: 
+
+<ul>
+  <li>A</li>
+</ul>
+
+Markdown:
+
+  * A
+
+
+IListStrategy ermöglicht die Erzeugung derartiger Listen in verschiedenen Formaten.
+
+A) Ein Interface beschreibt Methoden für abgeleitete Klassen
+   (virtual)  // doppelt indirekt
+
+B) Pendant: Ab C++ 20:  concept / requires
+
+   Ginge auch ohne dieses Pendant -- Punkt B könnte wegfallen.
+
+
+   'StaticStrategyPatternExample::TextProcessorEx': 
+   
+   the associated constraints are not satisfied
+
+=====================================================
+
+Template Method Pattern
+
+// VORSICHT: Hat nichts mit Templates von C++ zu tun.
+
+Beispiel:
+
+Spiele
+
+Tetris:
+
+Figuren:  8 Figuren.   Rechteck  // 
+
+Wie bewegt sich eine Figur: 
+
+== Nach unten
+== Kann drehen
+== Nach links
+== Nach rechts
+== Ende erreicht, wenn unten kein Platz
+
+Idee:
+Irgendwie sollte / könnte man für die Bewegung EINE FUNKTION / Methode
+schreiben:
+
+void bewegeTetrimino ()     // Methode: Schablone für alle existierenden Figuren / Bauteile angesehen.
+{
+    while (true) {
+        == Nach unten   // bewegeNachUnten();
+        == Kann drehen
+        == Nach links
+        == Nach rechts
+        == Ende erreicht, wenn unten kein Platz //  break;
+    }
+}
+
+Zentrale Methode: Diese ist NICHT virtuell  !!!
+
+Frage: Wie kann man die Spezifika der 8 verschiedenen Figuren 
+da mit rein bringen so dass ich einen Gewinn mit DIESER EINEN Methode habe.
+
+// ============================================================
+
+Unterschied Strategy Pattern // Template Method Pattern
+
+== Beide betrachten eine Methode 
+
+== Die Funktionalität dieser "Methode" (abstract) beim Strategy Pattern
+   soll unterschiedlich sein // um unterschiedliche Ausführungen zu erhalten.
+
+== Die Funktionalität dieser "Methode" (Schablonenmethode) beim Template Method Pattern
+   gibt es genau EINMAl. Und diese ist NICHT änderbar.
+
+
+
