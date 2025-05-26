@@ -19,7 +19,7 @@
 
 namespace ConceptualExample01
 {
-    class Prototype
+    class Prototype   // Figure
     {
     private:
         int m_id;
@@ -27,9 +27,13 @@ namespace ConceptualExample01
     public:
         Prototype(int id) : m_id{ id } {}
 
+        Prototype(const Prototype& other)  {   // Kopier-Kopierkonstruktor
+            m_id = other.m_id;
+        }
+
         virtual ~Prototype() {}
         
-        virtual Prototype* clone() const = 0;
+        virtual Prototype* clone() const = 0;  // Virtuelle Konstruktor nachgeahmt
 
     public:
         int getId() const { return m_id; }
@@ -41,11 +45,18 @@ namespace ConceptualExample01
     public:
         ConcretePrototype(int id) : Prototype{ id } {}
 
+        ConcretePrototype(const ConcretePrototype& other)
+            : Prototype(other)
+        {  // Kopier-Kopierkonstruktor
+        }
+
         // Note: Return Type = Type of base class - 
         // but 'virtual ConcretePrototype* clone()' compiles too
         virtual Prototype* clone() const override
         {
-            return new ConcretePrototype{ *this };
+            // return new ConcretePrototype(*this);   // Kopier-Kopierkonstruktor
+
+            return new ConcretePrototype(getId());   // User-defined Kopierkonstruktor
         }
     };
 
@@ -87,7 +98,7 @@ namespace ConceptualExample02
         std::shared_ptr<Prototype> clone() const override
         {
             std::shared_ptr<Prototype> copy {
-                std::make_shared<ConcretePrototype>(getId()) 
+                std::make_shared<ConcretePrototype>(getId())   // benutzer-definierter Konstruktor
             };
 
             return copy;

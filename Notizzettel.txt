@@ -328,4 +328,154 @@ Unterschied Strategy Pattern // Template Method Pattern
    gibt es genau EINMAl. Und diese ist NICHT änderbar.
 
 
+==============================================================
 
+Virtueller Konstruktor
+----------------------
+
+Erstelle eine Kopie eines Objekts.
+
+Wo ist das Problem ??? Kopier-Konstruktor.
+
+Erstelle eine Kopie :  Wovon ??? Was habe ich ???
+
+Beispiel:
+
+Spiele-Programmierung:
+
+Spielbrett // Game Board
+
+Figuren // figures
+
+Pseudo-Code:
+
+
+Figure* board [8][8];
+
+Schachbrett:   
+
+Da stehen auf jeder Zelle andere Figuren .. oder keine ...
+aber alle leiten sich von einer Basisklasse "Figure" ab.
+
+Brauche eine echte Kopie des Spielbretts:
+
+Um den / die nächsten Zug / Züge zu berechnen.
+Um den "besten" Zug aussuchen zu können.
+
+Langer Rede, kurzer Sinn:
+
+Figure* figur;   // Basisklassenzeiger 
+
+// Kopie:
+
+==> Tower, Queen, Pawn
+
+figur ==> auf die abgeleitete Klasse.
+
+Wie kann ich bei Kenntnis des Basisklassenzeigers eine Kopie des Objekts erstellen,
+auf das der Basisklassenzeiger zeigt ???
+
+Java // C#:   
+
+Java:  clone
+
+C#:  ICloneable => clone
+
+
+Virtueller Konstruktor
+
+        virtual Prototype* clone() const override
+        {
+            return new ConcretePrototype{ *this };
+        }
+
+Ist das ein Widerspruch, das ein Ergebnis des Typs ConcretePrototype zurückgeliefert wird,
+und nicht der Typ der Basisklasse in Erscheinung tritt.
+
+Vererbung:  Ist-Ein Beziehung:   Ein ConcretePrototype-Objekt "ist-ein" Prototype-Objekt.
+
+
+    static void clientCode(Prototype* original)
+    {
+        Prototype* copy{ original->clone() };
+
+
+Konkret:
+
+ChessFigure: Abstrakte Basisklasse
+
+Prototype == ChessFigure
+
+class Tower : public ChessFigure
+
+ConcretePrototype == Tower
+
+    static void clientCode(ChessFigure* original)
+    {
+        ChessFigure* copy = original->clone();  // was soll hier rauskommen: ein Tower 
+
+        // Ein Objekt genau des Typs, der zur LAUFZEIT vorhanden ist:
+        // also wenn ein Turm, dann eine Turm-Kopie
+        // wenn eine Dame, dann eine Kopie der Dame
+    }
+
+    ...
+    {
+        Tower* t = new Tower();
+
+        clientCode (t);  // reales Objekt  zur RUNTIME
+    }
+
+Wann brauch ich so etwas ???
+
+Hmm, wenn ich in Container (Schachbrett) eine Reihe von Basisklassenzeigern habe,
+und von diesem Container eine ECHTE Kopie benötige !!!
+
+// Beobachtung: Ähnlichkeiten zu Templates:
+
+Jein:  Templates sind austauschbar ... zur ÜBERSETZUNGSZEIT.
+
+std::vector<int> numbers;
+
+std::vector<double> moreNumbers;
+
+// ========================================================
+
+Wann muss ich den Kopier-Konstruktor selber schreiben:
+
+Wenn Pointer / dyn. Daten / new/ delete / vorhanden sind.
+Diese dürfen NICHT 1:1 dupliziert werden ==> Doppeltes delete: NO-Go
+
+Wo keine Pointer: Rule-of-ZERO ==> Der Compiler macht das für uns.
+
+// ========================================================
+
+Factory
+
+Factory-Pattern:  Inflation an derartigen Pattern.
+
+Enge Kopplung:  Exakte Kenntnis der Konstruktor // der Klassen 
+
+Aussage: Muss als Anwender in einem Team nicht detaillierte Kenntniss von "deren" Klassen.
+
+==> Funktionalität von "deren" Klassen haben
+
+Beobachtung: Trennung von einer Reihe von Klassen (Details) und einer Anwendung kann Sinn ergeben.
+
+Auch so rum:
+
+Habe als Anwender den Namen einer Klasse in meinem Quellcode verankert.   Lose  Kopplung .
+
+// ========================================================
+
+
+Color.FromArgb Methode
+
+A) Fabrik-Gedanke: Wegen der Erzeugungsmethoden   'FromArgb'
+
+Whyyyyyyyyyyyyyyyyyyyyyyy   new Color (100, 0 , 0);
+
+Anderer Grund: Bei vielen gleichen Objekten expldiert meine Speicheranforderung.
+
+==>   'FromArgb' ist etwas versteckt:  Singleton. // gleiche Farben 
+                                        werden vom gleichen Objekt beschrieben.

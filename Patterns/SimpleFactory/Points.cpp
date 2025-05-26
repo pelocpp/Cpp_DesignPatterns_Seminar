@@ -18,7 +18,7 @@ namespace Factory01 {
 
         // Not OK: Cannot overload with same type of arguments
         // 
-        // Point(double a, double b){ /*...*/ }      // Polar coordinates
+       // Point(double a, double b){ /*...*/ }      // Polar coordinates
         // ... Implementation
     };
 }
@@ -95,7 +95,7 @@ namespace Factory04 {
 
     class Point
     {
-        friend class PointFactory;
+        friend class PointFactory;  // C++ Sprachmittel // Sollte man immer kritisch hinterfragen
 
     private:
         double m_x;
@@ -116,11 +116,11 @@ namespace Factory04 {
     {
     public:
         static Point NewCartesian(double x, double y) {
-            return { x, y, PointType::cartesian };
+            return Point{ x, y, PointType::cartesian };
         }
 
         static Point NewPolar(double a, double b) {
-            return { a * cos(b), a * sin(b), PointType::polar };
+            return Point{ a * cos(b), a * sin(b), PointType::polar };
         }
     };
 
