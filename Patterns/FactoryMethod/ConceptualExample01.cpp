@@ -74,6 +74,7 @@ namespace ConceptualExample01
          * the factory method and returning a different type of product from it.
          */
     public:
+        // ==> Template Method pattern // Schablonen Methode zur Erzeugung von Objekten
         std::unique_ptr<ProductBase> requestProduct() {
 
             // call the factory method to create a Product object.

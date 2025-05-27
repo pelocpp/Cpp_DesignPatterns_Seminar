@@ -4,7 +4,9 @@
 
 #include "PersonBuilder.h"
 
-PersonBuilder::operator Person&& () {
+// operator + // operator Datatype // Zieldatentyp
+
+PersonBuilder::operator Person &&  () {
     return std::move(m_person);
 }
 

@@ -34,8 +34,11 @@ namespace Clipboard {
 
         // get handle of clipboard object for ANSI text
         HANDLE data = ::GetClipboardData(CF_TEXT);
-        if (data == nullptr)
+        if (data == nullptr) {
+            // goto 
             return -1;
+        }
+
 
         // lock the handle to get the actual text pointer
         char* m_text = static_cast<char*>(::GlobalLock(data));
@@ -60,6 +63,9 @@ namespace Clipboard {
     // RAII conformant solution
     class RAIIClipboard
     {
+    private:
+        // member data
+
     public:
         RAIIClipboard() {
             if (!::OpenClipboard((HWND)0)) {
@@ -76,6 +82,9 @@ namespace Clipboard {
         RAIIClipboard& operator=(const RAIIClipboard&) = delete;
     };
 
+
+
+
     class RAIIClipboardReader
     {
     public:
@@ -85,7 +94,7 @@ namespace Clipboard {
 
         explicit RAIIClipboardReader()
         {
-            RAIIClipboard clipboard;
+            RAIIClipboard clipboard;  // raii object // owner of clipboard
 
             m_data = ::GetClipboardData(CF_TEXT);
             if (m_data == nullptr) {
@@ -257,9 +266,9 @@ namespace Clipboard {
             conv.parseInput();
             conv.addLineNumbers();
             conv.printStats();
+            std::string convertedText{ conv.getText() };
 
             {
-                std::string convertedText{ conv.getText() };
                 RAIIClipboardWriter writer{ convertedText };
             }
 

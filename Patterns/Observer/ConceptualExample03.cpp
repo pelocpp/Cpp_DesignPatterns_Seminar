@@ -94,6 +94,7 @@ namespace ObserverDesignPatternSmartPointerEx {
 
     // ===========================================================================
 
+    //                                std::enable_shared_from_this: CURIOUS // CRTP
     class Observer : public IObserver, public std::enable_shared_from_this<Observer> {
     private:
         std::shared_ptr<Subject> m_subject;
@@ -129,7 +130,11 @@ namespace ObserverDesignPatternSmartPointerEx {
         {
             if (m_subject != nullptr) {
                 try {
+                    // this als std::shared_ptr: 
                     std::shared_ptr<Observer> me{ shared_from_this() };
+
+                    //std::shared_ptr<Observer> me{ this }; // STÜRZT AB
+                    
                     m_subject->detach(me);
                     std::cout
                         << "Observer \"" << m_number

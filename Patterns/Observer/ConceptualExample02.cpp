@@ -25,7 +25,7 @@ namespace ObserverDesignPatternSmartPointer {
     public:
         virtual ~ISubject() {}
 
-        virtual void attach(std::weak_ptr<IObserver>) = 0;
+        virtual void attach(std::weak_ptr<IObserver>&) = 0;
         virtual void detach(std::weak_ptr<IObserver>) = 0;
     };
 
@@ -39,6 +39,7 @@ namespace ObserverDesignPatternSmartPointer {
     class Subject : public ISubject {
     private:
         std::list<std::weak_ptr<IObserver>> m_observers;
+
         std::string                         m_message;
 
     public:
@@ -49,7 +50,10 @@ namespace ObserverDesignPatternSmartPointer {
         /**
          * subscription management methods.
          */
-        void attach(std::weak_ptr<IObserver> observer) override {
+
+        // implizite Datentyp Konvertierung vorhanden
+
+        void attach(std::weak_ptr<IObserver>& observer) override {
             m_observers.push_back(observer);
         }
 
@@ -88,6 +92,7 @@ namespace ObserverDesignPatternSmartPointer {
         void notify() {
             howManyObservers();
             for (const std::weak_ptr<IObserver>& weakPtr : m_observers) {
+
                 std::shared_ptr<IObserver> sharedPtr{ weakPtr.lock() };
                 if (sharedPtr != nullptr) {
                     sharedPtr->update(m_message);
@@ -141,40 +146,42 @@ namespace ObserverDesignPatternSmartPointer {
         std::shared_ptr<IObserver> observer2{ std::make_shared<Observer>() };
         std::shared_ptr<IObserver> observer3{ std::make_shared<Observer>() };
 
-        subject->attach(observer1);
-        subject->attach(observer2);
-        subject->attach(observer3);
+        std::weak_ptr<IObserver> wp = observer1;
+
+        subject->attach(wp);
+        //subject->attach(observer2);
+        //subject->attach(observer3);
 
         subject->createMessage("Hello World!");
         subject->createMessage("Hello World Again");
 
         subject->detach(observer1);
-        subject->detach(observer2);
-        subject->detach(observer3);
+        //subject->detach(observer2);
+        //subject->detach(observer3);
     }
 
     static void clientCode_02() {
 
-        std::shared_ptr<Subject> subject{ std::make_shared<Subject>() };
+        //std::shared_ptr<Subject> subject{ std::make_shared<Subject>() };
 
-        std::shared_ptr<IObserver> observer1{ std::make_shared<Observer>() };
-        std::shared_ptr<IObserver> observer2{ std::make_shared<Observer>() };
+        //std::shared_ptr<IObserver> observer1{ std::make_shared<Observer>() };
+        //std::shared_ptr<IObserver> observer2{ std::make_shared<Observer>() };
 
-        subject->attach(observer1);
-        subject->attach(observer2);
+        //subject->attach(observer1);
+        //subject->attach(observer2);
 
-        {
-            std::shared_ptr<IObserver> observer3{ std::make_shared<Observer>() };
-            subject->attach(observer3);
-            subject->createMessage("Hello World!");
-        }
+        //{
+        //    std::shared_ptr<IObserver> observer3{ std::make_shared<Observer>() };
+        //    subject->attach(observer3);
+        //    subject->createMessage("Hello World!");
+        //}
 
-        // Note: Watch contents of 'm_observers' list
+        //// Note: Watch contents of 'm_observers' list
 
-        subject->createMessage("Hello World Again");
+        //subject->createMessage("Hello World Again");
 
-        subject->detach(observer1);
-        subject->detach(observer2);
+        //subject->detach(observer1);
+        //subject->detach(observer2);
     }
 }
 

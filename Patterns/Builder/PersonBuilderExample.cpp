@@ -14,8 +14,8 @@ static void test_person_builder_example_01()
         .lives("Great Britain")
         .at("17 Sloane Street")
         .with_postcode("SW1X 9NU")
-        .in("London")
-        .works("Information Technology")
+        //.in("London")
+        //.works("Information Technology")
         .with("Software Manufactur")
         .as_a("Consultant");
 

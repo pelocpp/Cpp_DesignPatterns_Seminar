@@ -4,6 +4,12 @@ Seminar "C++ Design Pattern"
 
 Peter Loos // Du
 
+peter.loos@gmx.de
+----------------
+
+https://github.com/pelocpp
+
+
 30+ Jahre:
 
 i) Entwicklung
@@ -479,3 +485,271 @@ Anderer Grund: Bei vielen gleichen Objekten expldiert meine Speicheranforderung.
 
 ==>   'FromArgb' ist etwas versteckt:  Singleton. // gleiche Farben 
                                         werden vom gleichen Objekt beschrieben.
+
+// ========================================================
+
+2 neue Keywords im Umfeld der Vererbung:
+
+virtual
+override   neu
+final      neu
+
+final:
+
+2 Ansätze:
+
+i) Verbieten des Ableitens / des eine abgeleitete Klasse erzeugens
+
+ii) Verbieten des Überschreibens einer einzelnen Methode
+
+
+
+// =======================================================
+
+Abstract Factory
+
+Java
+
+UI Swing  ==> Look & Feel:   Metal // Motif // ............
+
+
+Was hat das Proxy-Pattern mit Abstract Factory zu tun ??????????
+
+Erst mal nichts.
+
+Aber: Eine Fabrik kann VIEL Speicher belegen.
+
+Man kann / sollte nicht alle Fabriken im Speicher halten.
+
+Idee / Ansatz: Vor eine Fabrik wird ein Proxy-Objekt gestellt:
+
+Lazy-Prinzip:
+
+// =======================================================
+
+Facade Pattern
+
+"Da legen wir mal eine Schicht drüber ..."       ===> Performanz
+
+Bekannte Beispiele:   Win32 API (C/C++) ==> .NET (C#)
+
+STL: std::mutex, std::thread (Concurrency)  ==> Für das API des jeweils zu Grunde liegenden Betriebssystems.
+
+// =======================================================
+
+std::unique_ptr // std::shared_ptr  ==> weak_ptr
+
+Observer Pattern:
+
+===========================
+
+RAII:  Wichtig
+
+Resources:
+
+Beobachtung: 2 Methode:   
+
+== attach / detach ( ... )
+
+== open / close (FILE)  (Socket ?!?)
+
+== CreateThread // ReleaseHandle (Threads)
+
+== Mutex-Objekt:  lock / unlock
+
+== SqlConnection:
+
+Worum geht's: Wenn der 2. Aufruf fehlt, kann das bisweilen FATALE Folgen haben.
+
+a) Der 2. Aufruf muss an der richtigen Stelle platziert werden.
+
+Was ist, wenn diese Stelle nicht erreicht wird.  // Fehler // Raus-testen ...
+
+Idee:
+
+OO // Objekte // 
+
+Konstruktoren
+Destruktoren
+
+Destruktor: Dieser wird DETERMINISTISCH aufgerufen - wenn das Objekt zerstört wird // am Ende des Scopes.
+
+Idee:
+
+Man verlagere das Resourcen-Objekt in ein Hüllen-Objekt
+
+Konstruktors:   1. Aufruf
+Destruktor:     2. Aufruf
+
+
+===============================================================
+
+Observable - Observer Pattern
+
+==> std::weak_ptr
+
+==> shared_from_this
+
+Hintergrund:
+
+Es gibt ein Objekt mit wichtigem Zustand, der sich ändern kann. 
+
+   // Wetterdaten  // Aktienkurse
+
+   // Event Source, Subject, Observable
+
+Es gibt andere Objekte, die sich für derartige Änderungen interessieren.
+
+==> Polling:  Zyklisch, alle 100ms abfragen .....
+
+==> Event Sink, Event Client, Oberserver
+
+=========================================
+
+Ein Detail
+
+update (Data data);
+
+Hmmm: Hat sich viel oder wenig geändert ???
+      Es könnten verschienden Werte sich geändert haben ???
+
+Alternative:
+
+update ();       // Keine Parameter   // Ping dar: es hat sich "etwas" geändert
+
+updateSmall ();  // Keine Parameter
+updateLarge ();  // Keine Parameter
+
+Konsequenz:
+
+Der Client kann beim Eintreffen der update- Methde selbst entscheiden,
+welche Wert er vom Subject (via getter ()) abholt.
+
+============================================================
+
+Das Szenario verwendet Smart Pointer:
+
+Clients:    std::shared_ptr  // Besitzer
+
+Subject:    std::shared_ptr  // andere Besitzer
+
+Weiterer Aspekt:
+
+Das Subject verwaltet eine Liste von aktuellen Beobachtern:
+
+    std::list< std::shared_ptr<> >    m_observers;  // Nicht mein Ansatz
+    std::vector< std::shared_ptr<> >  m_observers;
+
+    std::list< std::weak_ptr<> >    m_observers;    // Mein Ansatz
+    std::vector< std::weak_ptr<> >  m_observers;
+
+    Hmmm, was ist, wenn das tatsächliche Objekt nicht mehr existiert ???
+
+Beispiel: Beobachter für Aktienkurse von VW.  // Client (VW)
+
+// ================================================
+
+std::weak_ptr<>:
+
+Jetzt gibt es ein Detail-Problem:
+
+std::list< std::weak_ptr<> >  :   Hinzufügen: NO PROBLEM
+std::vector< std::weak_ptr<> >:   Entfernen:  Nicht trivial
+
+Why: list.remove(wp);  ==> Den WP in der Liste suchen: Vergleicht :
+
+std::weak_ptr<>  haben KEINEN == Operator !!!!!!!!!!!
+
+// ==================================
+
+Nachteil von einer Kopie eines weak_ptrs:
+
+Aus logischer Sicht NEIN.
+
+counter ++;  // thread-sichere Operation  // atomare Operation
+
+// ==================================
+
+Es sind viele shared_ptr im Umlauf:
+
+Gibt es davon WIRKLICH shared_ptr, die auch ihr Objekt wieder FREIGEBEN.
+
+Visualisierung:
+
+Die "malt" Wetterdaten oder Aktienkurse:
+
+Hmmm dann kommt bei lock => nullptr:
+
+=========================================
+
+shared_from_this
+================
+
+std::shared oder std::unique
+
+Beobachtung:
+
+Bin in einer Methode:   this 
+
+Meine Clients sprechen mit aber nicht über einen ZEIGER an,
+sonder über einen std::shared:
+
+Statt: this ==> std::shared_ptr<>(this)
+
+=========================================
+
+Builder Pattern:
+
+a) Um komplexe und komplizierte Objekte stückweise und intuitiver erstellen zu können.”
+
+b) Nebeneffekt:
+
+Idiom:   Konstruktoren mit benannten Parameter  // Named Parameters Constructor
+
+Fluent Programming Style:
+
+
+Builder Pattern:
+
+Konstruktor: Damit hat es sich ...
+
+Objekt: Als Hülle / Rumpf erstellt wird mit einem Konstruktor.
+
+Bekannt:
+
+Eine Option: Konstruktoren mit 10 Parametern.  Neeeeeeeeeeeeeeeeeeee
+
+Fluent Builder:
+
+Syntatic Sugar:  
+
+Person p{ Person::create("Jack")
+    .lives("Great Britain")
+    .at("17 Sloane Street")
+    .with_postcode("SW1X 9NU")
+    .in("London")
+ //   .works("Information Technology")
+    .with("Software Manufactur")
+    .as_a("Consultant")
+};
+
+Alternative:
+
+Eine struct befüllen und übergeben.
+
+Die Alternative zu
+
+typedef struct tagWNDCLASSA {
+  UINT      style;
+  WNDPROC   lpfnWndProc;
+  int       cbClsExtra;
+  int       cbWndExtra;
+  HINSTANCE hInstance;
+  HICON     hIcon;
+  HCURSOR   hCursor;
+  HBRUSH    hbrBackground;
+  LPCSTR    lpszMenuName;
+  LPCSTR    lpszClassName;
+} WNDCLASSA, *PWNDCLASSA, *NPWNDCLASSA, *LPWNDCLASSA;
+
+13:50

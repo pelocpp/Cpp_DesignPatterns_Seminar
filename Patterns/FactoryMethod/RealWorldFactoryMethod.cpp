@@ -23,16 +23,27 @@ namespace RealWorldFactoryMethod {
     class LEDTelevision : public ITelevision
     {
     public:
-        virtual std::string getManufacturer() const final {
+        std::string getManufacturer() const override final {
             return "LED TV";
         }
 
-        virtual void switchOn() override {
+        void switchOn() override {
             std::cout << "Switched on my LED TV" << std::endl;
         };
 
-        virtual void switchOff() override {
+        void switchOff() override {
             std::cout << "Switched off my LED TV" << std::endl;
+        };
+    };
+
+    class LEDTelevisionRefurbished : public LEDTelevision
+    {
+        //std::string getManufacturer() const override final {
+        //    return "LED TV";
+        //}
+
+        void switchOn() override {
+            std::cout << "Switched on my LED TV" << std::endl;
         };
     };
 
@@ -60,13 +71,11 @@ namespace RealWorldFactoryMethod {
         // these methods have to be provided by concrete factory classes.
         // These methods are NOT seen by any client
 
-    protected:
+    private:
         virtual bool manufactureTelevision() = 0;                        // take order, create order number, create invoice
         virtual std::unique_ptr<ITelevision> assembleTelevision() = 0;   // produce concrete television device
         virtual float shippingCharge() const = 0;
         virtual float productionCharge() const = 0;
-
-    private:
 
     public:
         virtual ~AbstractTVFactory() {}
@@ -96,7 +105,7 @@ namespace RealWorldFactoryMethod {
 
         virtual std::unique_ptr<ITelevision> orderTV() final {               // <= final method (!)
 
-            if (manufactureTelevision()) {
+            if (manufactureTelevision()) {                                   // <= abstract method (!)
 
                 // Note: client receives 'ITelevision' pointer
                 std::unique_ptr<ITelevision> tvup{ assembleTelevision() };   // <= abstract method (!)
@@ -162,6 +171,8 @@ namespace RealWorldFactoryMethod {
         }
     };
 
+    // ======================================================================
+
     static void clientCode(const std::shared_ptr<AbstractTVFactory>& factory) {
 
         factory->getOrderInformation();
@@ -172,14 +183,16 @@ namespace RealWorldFactoryMethod {
             << std::endl;
 
         std::unique_ptr<ITelevision> tvPtr{ factory->orderTV() };
+        if (tvPtr != nullptr) {
 
-        tvPtr->switchOn();
+            tvPtr->switchOn();
 
-        std::cout
-            << "My new TV is a "
-            << tvPtr->getManufacturer()
-            << " device."
-            << std::endl;
+            std::cout
+                << "My new TV is a "
+                << tvPtr->getManufacturer()
+                << " device."
+                << std::endl;
+        }
     }
 }
 

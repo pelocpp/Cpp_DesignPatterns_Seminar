@@ -100,6 +100,7 @@ namespace ConceptualExample02
     // =======================================================================
     // Constructs an instance, taking ownership of the given factories.
 
+    // Die am wenigsten beschäftigte Fabrik ...
     class LeastBusyFactory final : public FactoryBase
     {
     private:
@@ -182,7 +183,7 @@ void test_conceptual_example_02()
 
     std::println("Starting a new production sequence ...");
 
-    // build 10 cars from the least busy factory.
+    // build 10 products from the least busy factory.
     for (size_t i{}; i != 10; ++i) {
         auto product{ leastBusyFactory.requestProduct() };
         std::println("{}", product->getName());

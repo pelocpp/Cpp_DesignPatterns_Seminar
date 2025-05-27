@@ -175,7 +175,6 @@ namespace StrategyConceptualExampleModern {
         //Context context{ doAlgorithmA };
         Context context{ doAlgorithmA_Lambda };
 
-
         context.doSomeBusinessLogic();
         std::println();
 

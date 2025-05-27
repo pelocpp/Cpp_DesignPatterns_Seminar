@@ -18,7 +18,7 @@ namespace RAIIDemo {
 
         // d'tor
         ~RAII() {
-            m_finalizer();
+            m_finalizer();   // Lambda
         }
 
         // prevent copy semantics
@@ -26,18 +26,21 @@ namespace RAIIDemo {
         RAII& operator= (const RAII&) = delete;
 
     private:
-        TFinalizer m_finalizer;
+        TFinalizer m_finalizer;   // Lambda, der die Resource freigibt
     };
 
     static void test_01()
     {
         {
-            Dummy* ptr = new Dummy{ 1 };
+            Dummy* ptr = new Dummy{ 1 };   // Wann wird delete von ptr aufgerufen ????
             if (ptr == nullptr) {
                 return;
             }
 
-            RAII raii{ [&] () { delete ptr; } };
+            RAII raii{ [&] () { delete ptr; } };  // Resource + Aufruf für Freigabe ...
+
+            // working ...
+            std::cout << "Working." << std::endl;
         }
 
         std::cout << "Done." << std::endl;

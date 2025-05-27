@@ -158,7 +158,9 @@ public:
 
     GenericButtonFactory()
     {
-        m_factories["Linux"] = std::make_shared<LinuxFactory>();
+        // Eager // Lazy // ==> Lazy // Proxy:  
+        // Eher ein konzeptionelles Beispiel
+        m_factories["Linux"] = std::make_shared<LinuxFactory>();  // Key / Value
         m_factories["Win"] = std::make_shared<WindowsFactory>();
         m_factories["Mac"] = std::make_shared<MacFactory>();
     }
