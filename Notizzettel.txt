@@ -752,4 +752,185 @@ typedef struct tagWNDCLASSA {
   LPCSTR    lpszClassName;
 } WNDCLASSA, *PWNDCLASSA, *NPWNDCLASSA, *LPWNDCLASSA;
 
-13:50
+=========================================
+
+Literatur:
+
+Warum nicht Type Erasure:
+
+Ich habe bislang keinen Anwendungsfall gefunden ?!?!?!
+
+Wozu:  std::variant, std::any und std::function.
+
+==========================================
+
+Decorator Pattern
+
+Ein wenig schwer zum Erklären ...
+
+Der Name: Decorator ==> Ausschmücken // Ergänzen // Hinzufügen
+
+Hüllen Pattern // Wrapper
+
+============================================
+
+Chain of Responsibility Pattern
+
+WPF: Graphikbibl. unter Windows
+
+Ereignisse: Maus-Click (Wo, Welche Taste)
+
+An der Fenster, das den Fokus hat, zugestellt werden:
+
+Layer:  Button
+
+        Groupbox  <===
+
+        Window
+
+Routing: Wer bekommt das Ereignis: Das Top-Most Control.  // Bubbling // Tunneling
+
+Beobachtung:
+
+Manche Pattern machen Vorgaben über Realisierung:
+
+Wer ist der Nachfolger eines Elements in einer Chain.
+
+handleRequest:
+
+a) Kann was tun, muss aber nicht.
+
+b) Muss entscheiden: Informiere ich den Nachfolger - oder nicht.
+
+===============================================================
+
+== Erkennen ???
+
+== Wann brauche ich welches Pattern :)
+
+3 Spontanfragen:
+----------------
+
+https://github.com/pelocpp/cpp_design_patterns_case_studies
+
+===============================================================
+
+Singleton
+
+FlyWeight // Composite Pattern
+
+Command
+
+Visitor
+
+Überblick
+
+==============================================================
+
+XML - Dokumente // Parsen:  XML Parser: Singleton.
+
+Singleton: EIN Objekt.
+
+Single-Threading: Sequentiell - no Problem
+
+Multi-Threading:  Werkzeuge des Sperrens:  std::mutex // std::atomic
+
+board[0][0]  <=== eine sollte hier den Zugriff haben: 
+
+==============================================================
+
+std::stack // vector
+
+==============================================================
+
+FlyWeight:
+
+Idee:
+
+Speicher // Viel Speicher:
+
+Kann man das was optimieren ???
+
+Beobachtung: 
+
+Objekte wie Angestellte // Fahrzeuge: viele Objekte
+
+
+Angestellte: Name, Vorname:  Eindeutig.
+
+             Abteilung: 100 Mitarbeiter. 
+
+Bei 100 Angestellten steht dieselbe Information zu dieser Abteilung:
+
+Name
+Wo
+Gebäude
+Hs.Nummer
+Standort
+Chef dieser Abteilung
+...............
+
+Bei 100 Angestellten steht dieselbe Information zu dieser Abteilung:
+
+Idee / Pattern:  Solche redundanten Informationen "rausziehen" / "raus faktorisieren"
+
+
+========> Fly Weight:  
+
+Fliegengewicht:   Etwas leichtes ..  die redundanten Informationen werden dann "leicht"
+
+Fliehgewicht: Anyway .........
+
+======================================
+
+Beschreibt das "raus faktorisieren" redundanter Daten.
+
+
+======================================
+
+
+Kommando:
+
+Klassiker:
+
+== Es kommen - von einer externen Schnittstelle - viele Ereignisse.
+
+== Jedes dieser Ereignisse muss bearbeitet werden - mit einer Methode.
+
+== Das kann nicht synchron erfolgen, weil die Bearbeitung länger dauern kann.
+
+Idee:
+
+a) Die Ereignisse müssen zwischen gespeichert werden.
+
+b) OO: Oder: es werden bereits konkrete Methodenaufrufe
+
+        / welches Objekt, welche Methode, welche Parameter 
+
+        beschrieben und abgelegt.
+
+        und zu einem späteren Zeitpunkt aufgerufen.
+
+Idee: So eine zwischengespeicherte Methode bezeichnet man als "Kommando".
+
+"Kommandos" zu einem späteren Zeitpunkt aufgerufen.
+
+===============================================
+
+Undo  // Redo - Funktionalität:
+
+==============================================
+
+Composite Pattern:
+
+==============================================
+
+Besucher // Visitor:
+
+Gruppe ähnlicher Objekte oder Hierarchien:
+
+Legacy - Code:
+
+Erweiterung von vorhandenem Code, den ich nicht wirklich anfassen möchte.
+
+

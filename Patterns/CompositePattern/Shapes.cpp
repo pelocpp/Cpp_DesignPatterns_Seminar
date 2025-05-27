@@ -45,7 +45,7 @@ public:
 
             std::string ident( m_indentation, ' ' );
             std::cout << ident;
-            shape->draw();
+            shape->draw();    // Gesamtpreis berechnen // alle Elemente der Gruppe Zeichen
             std::cout << std::endl;
         }
 
@@ -71,10 +71,12 @@ void test_shapes()
     std::shared_ptr<IShape> circle{
         std::make_shared<Circle>("Top Level Circle") 
     };
+
     root->push(circle);
 
     // creating sub group with another two circles
     std::shared_ptr<Group> subgroup = std::make_shared<Group>("Subgroup");
+
     std::shared_ptr<IShape> secondLevelcircle{ 
         std::make_shared<Circle>("First Second Level Circle")
     };
@@ -85,7 +87,7 @@ void test_shapes()
     subgroup->push(anotherSecondLevelcircle);
 
     // adding sub group to root
-    root->push(subgroup);
+    root->push(subgroup);   // Trick // Coole Idee
 
     root->draw();
 }

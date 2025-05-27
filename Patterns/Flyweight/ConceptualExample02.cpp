@@ -91,7 +91,7 @@ namespace ConceptualExample02 {
     };
 
     /**
-     * The Flyweight Factory creates and manages the Flyweight objects. It ensures
+     * The Flyweight Factory // Cache // creates and manages the Flyweight objects. It ensures
      * that flyweights are shared correctly. When the client requests a flyweight,
      * the factory either returns an existing instance or creates a new one, if it
      * doesn't exist yet.
@@ -250,19 +250,19 @@ static void test_conceptual_example_02_b() {
     {
         /* std::initializer_list of Shared State objects
         */
-        {"Chevrolet", "Camaro2018", "pink"},
-        {"Mercedes Benz", "C300", "black"},
-        {"Mercedes Benz", "C500", "red"},
-        {"BMW", "M5", "red"},
-        {"BMW", "X6", "white"}
+        { "Chevrolet", "Camaro2018", "pink"},
+        { "Mercedes Benz", "C300", "black"},
+        { "Mercedes Benz", "C500", "red"},
+        { "BMW", "M5", "red"},
+        { "BMW", "X6", "white"}
     };
 
     factory.listFlyweights();
 
     addCarToDatabase(
         factory,
-        "James Doe",
-        "CL234IR",
+        "James Doe", // Inhaber
+        "CL234IR",   // Kennzeichen
         "BMW",
         "M5",         // <== this car variant always exists
         "red");

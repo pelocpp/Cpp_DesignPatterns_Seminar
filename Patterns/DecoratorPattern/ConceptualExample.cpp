@@ -38,7 +38,8 @@ public:
  * concrete decorators. The default implementation of the wrapping code might
  * include a field for storing a wrapped component and the means to initialize it.
  */
-class DecoratorBase : public Component {
+class DecoratorBase : public Component
+{
 protected:
    std::shared_ptr<Component> m_component;
 
@@ -73,6 +74,10 @@ public:
 
     virtual std::string operation() const override {
         std::string parentResult{ DecoratorBase::operation() };
+
+        //    m_component->operation();  // Gibt es da einen Unterschied: 
+
+        // Die konst. Zeichenketten "schmücken" // ergänzten // dekorieren das eigentliche Ergebnis
         std::string decoratedResult{ "ConcreteDecoratorA ( " + parentResult + " )" };
         return decoratedResult;
     }
@@ -147,7 +152,7 @@ void test_conceptual_example_02() {
      */
 
     std::shared_ptr<Component> component{ 
-        std::make_shared<ConcreteComponent>()
+        std::make_shared<ConcreteComponent>()   //  Zielobjekt
     };
 
     std::shared_ptr<Component> decorator1{
@@ -155,8 +160,8 @@ void test_conceptual_example_02() {
     };
 
     std::shared_ptr<Component> decorator2{
-        std::make_shared<ConcreteDecoratorB>(decorator1)
-    };
+        std::make_shared<ConcreteDecoratorB>(decorator1)  // !!!!! NICHT das Zielobjekt
+    };                                    // sondern ein anderer Dekorierer
 
     std::cout << "Client: Decorated component:" << std::endl;
     clientCode(decorator2);

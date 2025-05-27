@@ -6,6 +6,16 @@
 #include <thread>
 #include <mutex>
 
+
+// DATEI.cpp  : Globale Variable : Die die Klasse 'Singleton' implementiert.
+
+// Alle Clients verwenden ein HEader-File bzgl. Klasse 'Singleton',
+// um MEthode Singleton::getInstance aufrufen zu können.
+
+// Damit haben ALLE Clients einen Pointer: Singleton*
+
+// Multi Threading: ==>
+
 namespace ConceptualExample01 {
 
     class Singleton final
@@ -17,15 +27,16 @@ namespace ConceptualExample01 {
     private:
         Singleton() = default;
 
+        // jegliches Kopieren / Verschieben unterbinden
         Singleton(const Singleton&) = delete;
         Singleton(Singleton&&) noexcept = delete;
         Singleton& operator=(const Singleton&) = delete;
         Singleton& operator=(Singleton&&) noexcept = delete;
 
     public:
-        static Singleton* getInstance()
+        static Singleton* getInstance()    //  Single Threading Kontext
         {
-            if (m_instance == nullptr) {
+            if (m_instance == nullptr) {           // Lazy-Ansatz
                 m_instance = new Singleton{};
             }
 
@@ -35,11 +46,12 @@ namespace ConceptualExample01 {
         static Singleton* getInstanceThreadSafe()
         {
             {
-                std::lock_guard<std::mutex> lock{ m_mutex };
+                std::lock_guard<std::mutex> lock{ m_mutex };   //  lock  // 
+
                 if (m_instance == nullptr) {
                     m_instance = new Singleton{};
                 }
-            }
+            }                                                 // unlock
 
             return m_instance;
         }
